@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: flightticket
+  datasource:
+    url: jdbc:postgresql://localhost:5432/flightticket
+    username: postgres
+    password: postgres
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: true
+server:
+  port: 8080
