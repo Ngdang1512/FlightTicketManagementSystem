@@ -4,13 +4,17 @@
   "version": "0.0.1",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "npm run dev:customer",
+    "dev:admin": "VITE_PORTAL=admin vite --host 127.0.0.1 --port 5171 --strictPort",
+    "dev:manager": "VITE_PORTAL=manager vite --host 127.0.0.1 --port 5172 --strictPort",
+    "dev:customer": "VITE_PORTAL=customer vite --host 127.0.0.1 --port 5173 --strictPort",
     "build": "vite build",
     "preview": "vite preview"
   },
   "dependencies": {
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.28.0"
   },
   "devDependencies": {
     "@types/react": "^18.3.5",

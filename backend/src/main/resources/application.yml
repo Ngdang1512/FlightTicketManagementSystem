@@ -2,15 +2,32 @@ spring:
   application:
     name: flightticket
   datasource:
-    url: jdbc:postgresql://localhost:5432/flightticket
-    username: postgres
-    password: postgres
+    url: ${DB_URL:jdbc:postgresql://127.0.0.1:55432/flightticket}
+    username: ${DB_USERNAME:admin}
+    password: ${DB_PASSWORD:}
+  sql:
+    init:
+      mode: always
+      schema-locations: ${DB_SCHEMA_LOCATION:file:../HeThongBanVeMayBay.sql}
   jpa:
     hibernate:
       ddl-auto: validate
     properties:
       hibernate:
         format_sql: true
-    show-sql: true
+    show-sql: ${JPA_SHOW_SQL:false}
+    open-in-view: false
 server:
-  port: 8080
+  port: ${SERVER_PORT:8080}
+
+app:
+  bootstrap-admin:
+    username: ${APP_ADMIN_USERNAME:}
+    password: ${APP_ADMIN_PASSWORD:}
+  bootstrap-staff:
+    username: ${APP_STAFF_USERNAME:}
+    password: ${APP_STAFF_PASSWORD:}
+  jwt:
+    secret: ${JWT_SECRET:development-only-secret-key-change-before-production}
+    access-token-minutes: ${JWT_ACCESS_MINUTES:15}
+    refresh-token-days: ${JWT_REFRESH_DAYS:7}
