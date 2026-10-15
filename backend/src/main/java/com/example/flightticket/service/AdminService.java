@@ -297,7 +297,7 @@ public class AdminService {
         }
         FlightFare fare = fares.findForUpdate(booking.getFlight().getId(), booking.getFareClass().getId())
                 .orElseThrow(() -> new ResourceNotFoundException("Fare not found"));
-        fare.releaseSeats(booking.getPassengerCount());
+        fare.releaseSeats(booking.getSeatCount());
         booking.cancel();
         return bookingResponse(booking);
     }
@@ -309,15 +309,14 @@ public class AdminService {
         if (booking.getStatus() != BookingStatus.PAID && booking.getStatus() != BookingStatus.REFUND_REQUESTED) {
             throw new ConflictException("Only paid bookings or refund requests can be refunded");
         }
-        if (booking.getFlight().getStatus() == FlightStatus.DEPARTED
-                || booking.getFlight().getStatus() == FlightStatus.ARRIVED) {
-            throw new ConflictException("Departed flights cannot be refunded");
+        if (java.time.Instant.now().plus(java.time.Duration.ofHours(24)).isAfter(booking.getFlight().getDepartureTime())) {
+            throw new ConflictException("Refunds must be processed at least 24 hours before departure");
         }
         Payment payment = payments.findByBookingId(bookingId)
                 .orElseThrow(() -> new ResourceNotFoundException("Payment not found"));
         FlightFare fare = fares.findForUpdate(booking.getFlight().getId(), booking.getFareClass().getId())
                 .orElseThrow(() -> new ResourceNotFoundException("Fare not found"));
-        fare.releaseSeats(booking.getPassengerCount());
+        fare.releaseSeats(booking.getSeatCount());
         tickets.findAllByBookingId(bookingId).forEach(Ticket::voidTicket);
         payment.refund();
         booking.markRefunded();

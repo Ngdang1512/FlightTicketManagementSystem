@@ -101,7 +101,9 @@ export function getOccupiedSeats(id: number) { return request<string[]>(`/api/fl
 export function createBooking(payload: {
   flightId: number
   fareId: number
-  passengers: { fullName: string; documentNumber?: string; seatNumber: string; baggageOptionId?: number }[]
+  contactEmail: string
+  contactPhone: string
+  passengers: { fullName: string; documentNumber?: string; seatNumber?: string; baggageOptionId?: number; passengerType: 'ADULT' | 'SENIOR' | 'CHILD' | 'INFANT'; dateOfBirth: string; gender: 'MALE' | 'FEMALE' | 'OTHER' }[]
 }) {
   return authorizedRequest<Booking>('/api/bookings', { method: 'POST', body: JSON.stringify(payload) })
 }

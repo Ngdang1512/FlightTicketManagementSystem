@@ -44,6 +44,12 @@ public class Booking {
 
     @Column(name = "passenger_count", nullable = false)
     private Integer passengerCount;
+    @Column(name = "seat_count", nullable = false)
+    private Integer seatCount;
+    @Column(name = "contact_email", nullable = false, length = 150)
+    private String contactEmail;
+    @Column(name = "contact_phone", nullable = false, length = 20)
+    private String contactPhone;
 
     @Column(name = "total_amount", nullable = false, precision = 18, scale = 2)
     private BigDecimal totalAmount;
@@ -70,13 +76,16 @@ public class Booking {
     protected Booking() {}
 
     public Booking(String bookingCode, Customer customer, Flight flight, FareClass fareClass,
-                   int passengerCount, BigDecimal totalAmount) {
+                   int passengerCount, int seatCount, BigDecimal totalAmount, String contactEmail, String contactPhone) {
         Instant now = Instant.now();
         this.bookingCode = bookingCode;
         this.customer = customer;
         this.flight = flight;
         this.fareClass = fareClass;
         this.passengerCount = passengerCount;
+        this.seatCount = seatCount;
+        this.contactEmail = contactEmail;
+        this.contactPhone = contactPhone;
         this.totalAmount = totalAmount;
         this.status = BookingStatus.PENDING;
         this.bookedAt = now;
@@ -96,6 +105,9 @@ public class Booking {
     public FareClass getFareClass() { return fareClass; }
     public Instant getBookedAt() { return bookedAt; }
     public Integer getPassengerCount() { return passengerCount; }
+    public Integer getSeatCount() { return seatCount; }
+    public String getContactEmail() { return contactEmail; }
+    public String getContactPhone() { return contactPhone; }
     public BigDecimal getTotalAmount() { return totalAmount; }
     public BookingStatus getStatus() { return status; }
     public Instant getExpiresAt() { return expiresAt; }

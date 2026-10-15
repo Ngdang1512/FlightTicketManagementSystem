@@ -1,5 +1,6 @@
 import { NavLink, Outlet, useLocation } from 'react-router-dom'
 import type { AuthUser } from '../types'
+import SkyWayLogo from '../components/SkyWayLogo'
 
 export default function AppLayout() {
   const { pathname } = useLocation()
@@ -26,7 +27,7 @@ export default function AppLayout() {
       <header className={`site-header customer-header${isTicketPage ? ' ticket-header' : ''}`}>
         <div className="site-header-inner">
           <NavLink className="brand" to="/" aria-label="SkyWay trang chủ">
-            <span className="brand-mark" aria-hidden="true"><i /><i /><i /></span>
+            <SkyWayLogo />
             <span>SkyWay</span>
           </NavLink>
           <nav className="customer-nav" aria-label="Điều hướng chính">

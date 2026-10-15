@@ -12,6 +12,11 @@ a { color: inherit; }
 .brand { display: flex; align-items: center; gap: 10px; font: 800 18px Manrope, sans-serif; text-decoration: none; letter-spacing: -.65px; white-space: nowrap; color: #1353b4; }
 .brand-mark { width: 39px; height: 21px; display: flex; align-items: stretch; gap: 2px; transform: skewX(-26deg); }
 .brand-mark i { flex: 1; display: block; border-radius: 2px; background: #1d73f8; }
+.skyway-logo-mark { width: 46px; height: 32px; flex: 0 0 auto; overflow: visible; color: #1677ff; }
+.skyway-logo-mark .logo-wing-back { fill: currentColor; opacity: .68; }
+.skyway-logo-mark .logo-wing-front,
+.skyway-logo-mark .logo-plane { fill: currentColor; }
+.skyway-logo-mark .logo-route { fill: none; stroke: currentColor; stroke-width: 2.3; stroke-linecap: round; stroke-dasharray: 2 4; opacity: .75; }
 .site-header nav { display: flex; align-items: center; gap: 18px; }
 .nav-link { text-decoration: none; color: #8a929d; padding: 9px 2px; border-radius: 8px; font-weight: 600; font-size: 12px; white-space: nowrap; }
 .nav-link:hover, .nav-link.active { color: #111922; background: transparent; }
@@ -183,7 +188,7 @@ td select { border: 1px solid #cbd8e3; border-radius: 7px; padding: 7px; backgro
 .domestic-flights { min-height: calc(100vh - 64px); padding: 0; background: var(--ticket-canvas); color: var(--ticket-text); }
 .ticket-shell .ui-icon { fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
 .flight-search-strip { background: var(--ticket-surface); border-bottom: 1px solid var(--ticket-border); }
-.ticket-shell .domestic-search { min-height: 114px; margin: 0 auto; padding: 16px 16px 20px; display: grid; grid-template-columns: 236px 36px 250px 236px 166px 138px; justify-content: space-between; align-items: end; }
+.ticket-shell .domestic-search { min-height: 114px; margin: 0 auto; padding: 16px 16px 20px; display: grid; grid-template-columns: 220px 36px 220px 226px 220px 128px; justify-content: space-between; align-items: end; }
 .ticket-shell .domestic-search > label { width: auto; min-width: 0; display: flex; flex-direction: column; gap: 8px; color: #292f35; font-size: 11px; font-weight: 700; }
 .ticket-shell .domestic-search > label > span { min-height: 14px; display: flex; align-items: center; gap: 8px; }
 .search-field { width: 100%; height: 46px; display: flex; align-items: center; overflow: hidden; border: 1px solid transparent; border-radius: 9px; background: var(--ticket-control); color: #77838c; }
@@ -205,6 +210,25 @@ td select { border: 1px solid #cbd8e3; border-radius: 7px; padding: 7px; backgro
 .passenger-stepper > .ui-icon { width: 17px; height: 17px; margin-left: 12px; }
 .passenger-stepper button { height: 100%; padding: 0; border: 0; background: transparent; color: #454e56; cursor: pointer; font-size: 18px; font-weight: 600; }
 .passenger-stepper strong { color: #20262c; font-size: 13px; }
+.passenger-search-control { min-width: 0; display: flex; flex-direction: column; gap: 8px; color: #292f35; font-size: 11px; font-weight: 700; position: relative; z-index: 20; }
+.passenger-search-control > span { min-height: 14px; }
+.passenger-selector-trigger { width: 100%; height: 46px; padding: 0 12px; display: grid; grid-template-columns: 20px 1fr auto; align-items: center; gap: 8px; border: 1px solid transparent; border-radius: 9px; background: var(--ticket-control); color: #29323a; cursor: pointer; text-align: left; }
+.passenger-selector-trigger .ui-icon { width: 17px; height: 17px; color: #77838c; }
+.passenger-selector-trigger i { color: #77838c; font-style: normal; }
+.passenger-search-control.open .passenger-selector-trigger { border-color: #a5c8ff; box-shadow: 0 0 0 3px rgba(23,109,245,.08); }
+.passenger-popover { width: 310px; padding: 10px; position: absolute; z-index: 30; right: 0; top: calc(100% + 8px); border: 1px solid #dce4ea; border-radius: 16px; background: #fff; box-shadow: 0 18px 45px rgba(25,48,68,.18); }
+.passenger-done { width: calc(100% - 20px); min-height: 42px; margin: 10px; border: 0; border-radius: 22px; background: #dff3ff; color: #0759a9; cursor: pointer; font-weight: 700; }
+.passenger-types { min-height: 132px; padding: 8px 10px; display: grid; align-items: center; border: 1px solid #e1e8ed; border-radius: 12px; background: #fff; box-shadow: 0 6px 18px rgba(38,65,87,.06); }
+.passenger-types label { min-height: 38px; display: grid; grid-template-columns: 25px minmax(65px, 1fr) 30px 22px 30px; align-items: center; gap: 5px; }
+.passenger-types label .ui-icon { width: 22px; height: 22px; color: #6f7a82; stroke-width: 1.7; }
+.passenger-types label:last-child .ui-icon { color: #6f7a82; }
+.passenger-types label + label { border-top: 1px solid #e6e9eb; }
+.passenger-types label > span { display: grid; gap: 1px; }
+.passenger-types label b { color: #17212a; font-size: 10px; }
+.passenger-types small { color: #7b858d; font-size: 8px; font-weight: 500; }
+.passenger-types button { width: 28px; height: 28px; padding: 0; border: 0; border-radius: 50%; background: #dff3ff; color: #087be8; cursor: pointer; font-size: 18px; font-weight: 400; }
+.passenger-types button:disabled { opacity: .3; }
+.passenger-types strong { padding-bottom: 3px; border-bottom: 1px solid #b9c1c7; color: #111a22; text-align: center; font-size: 13px; }
 .ticket-shell .button.primary { background: var(--ticket-blue); }
 .search-ticket { width: 138px; min-width: 138px; min-height: 42px; margin-bottom: 2px; padding: 0 16px; border-radius: 21px; box-shadow: none !important; white-space: nowrap; font-size: 11px; }
 .customer-notice { margin: 16px auto 0; }
@@ -512,6 +536,14 @@ td select { border: 1px solid #cbd8e3; border-radius: 7px; padding: 7px; backgro
 .home-route-card span { color: #1c232a; font-size: 24px; font-weight: 700; }
 .home-route-card i { height: 1px; background: #cadbe9; color: var(--customer-blue); font-style: normal; text-align: center; line-height: 0; }
 .home-route-card small { grid-column: 1 / -1; color: var(--customer-muted); font-size: 11px; }
+.home-route-card b { grid-column: 1 / -1; color: var(--customer-blue); font-size: 11px; }
+.home-ticket-loading { min-height: 390px; padding: 28px; display: grid; align-content: center; gap: 14px; }
+.home-ticket-loading i { height: 58px; border-radius: 12px; background: linear-gradient(90deg,#eef1f4 25%,#f8f9fa 45%,#eef1f4 65%); background-size: 300% 100%; animation: skyway-shimmer 1.3s infinite; }
+.home-ticket-empty { min-height: 390px; padding: 36px; display: grid; place-items: center; align-content: center; gap: 10px; color: var(--customer-muted); text-align: center; }
+.home-ticket-empty .airplane-icon { width: 42px; height: 42px; color: var(--customer-blue); }
+.home-ticket-empty strong { color: #252c33; font-size: 16px; }
+.home-ticket-empty span { font-size: 11px; }
+.home-routes-empty { margin-top: 24px; padding: 42px; border: 1px dashed var(--customer-border); border-radius: 16px; color: var(--customer-muted); text-align: center; }
 
 /* Login and registration */
 .customer-shell .auth-page { width: min(1040px, calc(100% - 40px)); min-height: 600px; margin: 40px auto; padding: 0; display: grid; grid-template-columns: 44% 56%; align-items: stretch; overflow: hidden; border: 1px solid var(--customer-border); border-radius: 18px; background: #fff; box-shadow: 0 18px 50px rgba(35,58,78,.08); }
@@ -619,6 +651,38 @@ td select { border: 1px solid #cbd8e3; border-radius: 7px; padding: 7px; backgro
 .checkout-page .passenger-form select:focus { border-color: var(--customer-blue); box-shadow: 0 0 0 3px rgba(22,119,255,.1); }
 .passenger-baggage { grid-column: 1 / -1; }
 .passenger-baggage small { margin-top: 6px; display: block; color: var(--customer-muted); font-size: 9px; }
+.seat-picker-trigger { width: 100%; min-height: 42px; padding: 0 12px; border: 1px solid #d9e2ec; border-radius: 9px; background: #fbfdff; color: #59646e; text-align: left; cursor: pointer; }
+.seat-picker-trigger.active { border-color: var(--customer-blue); background: #eef5ff; color: var(--customer-blue); font-weight: 700; }
+.aircraft-seat-picker { overflow-x: auto; padding: 22px; border: 1px solid var(--customer-border); border-radius: 16px; background: #fff; }
+.aircraft-seat-picker > header { margin-bottom: 22px; display: flex; justify-content: space-between; gap: 16px; }
+.aircraft-seat-picker > header > div:first-child { display: grid; gap: 4px; }
+.aircraft-seat-picker header strong { font-size: 14px; }
+.aircraft-seat-picker header span { color: var(--customer-blue); font-size: 10px; }
+.seat-legend { display: flex; align-items: center; gap: 6px; color: var(--customer-muted); font-size: 8px; }
+.seat-legend i { width: 10px; height: 10px; border: 1px solid #b8c5d0; border-radius: 3px; background: #fff; }
+.seat-legend i.selected { border-color: var(--customer-blue); background: var(--customer-blue); }
+.seat-legend i.occupied { border-color: #d8dde1; background: #d8dde1; }
+.aircraft-cabin { width: 1120px; min-height: 280px; margin: 70px 0; padding: 38px 58px; display: grid; grid-template-columns: 54px 1fr 54px; align-items: center; border: 2px solid #cddbe7; border-radius: 48% 48px 48px 48% / 50% 48px 48px 50%; background: #f8fbfe; box-shadow: inset 0 0 0 8px #fff, 0 8px 24px rgba(48,78,102,.08); position: relative; }
+.aircraft-cabin::before { content: ''; width: 310px; position: absolute; z-index: 0; left: 44%; top: -72px; bottom: -72px; background: #e6eff7; clip-path: polygon(46% 0,58% 0,61% 34%,100% 43%,100% 57%,61% 66%,58% 100%,46% 100%,43% 66%,0 57%,0 43%,43% 34%); filter: drop-shadow(2px 0 0 #cddbe7); }
+.aircraft-cabin::after { content: ''; width: 145px; position: absolute; z-index: 0; right: 26px; top: -34px; bottom: -34px; background: #e6eff7; clip-path: polygon(20% 0,42% 0,58% 35%,100% 43%,100% 57%,58% 65%,42% 100%,20% 100%,30% 62%,0 58%,0 42%,30% 38%); filter: drop-shadow(2px 0 0 #cddbe7); }
+.aircraft-cabin > * { position: relative; z-index: 1; }
+.cockpit { margin: 0; display: grid; justify-items: center; gap: 5px; color: var(--customer-blue); }
+.cockpit .airplane-icon { width: 27px; height: 27px; }
+.cockpit span, .aircraft-tail { color: #95a1ab; font-size: 8px; text-align: center; }
+.seat-chart { width: max-content; display: grid; gap: 6px; }
+.seat-number-row, .seat-letter-row { display: flex; align-items: center; gap: 9px; }
+.seat-number-row > i, .seat-letter-row > b { width: 22px; flex: 0 0 22px; color: #65727c; font-size: 9px; text-align: center; }
+.seat-number-row span { width: 22px; flex: 0 0 22px; color: #7c8790; font-size: 8px; text-align: center; }
+.seat-letter-row button, .seat-letter-row > i:not(:first-child) { width: 22px; height: 22px; flex: 0 0 22px; padding: 0; border: 1px solid #b8c9d8; border-radius: 5px 5px 3px 3px; background: #fff; cursor: pointer; }
+.seat-letter-row.aisle-start { margin-top: 15px; }
+.seat-letter-row button.selected { border-color: var(--customer-blue); background: var(--customer-blue); box-shadow: 0 0 0 2px rgba(22,119,255,.15); }
+.seat-letter-row button.occupied { border-color: #d8dde1; background: #d8dde1; cursor: not-allowed; }
+.infant-seat-note { grid-column: 1 / -1; padding: 12px 14px; border-radius: 9px; background: #eef7ff; color: #557087; font-size: 10px; }
+.aircraft-tail { margin: 0; padding: 0; border: 0; writing-mode: vertical-rl; }
+@media (max-width: 620px) {
+  .aircraft-cabin { margin-block: 60px; }
+  .aircraft-seat-picker > header { flex-direction: column; }
+}
 .checkout-assurance { padding: 16px 18px; display: flex; align-items: center; gap: 12px; border: 1px solid #dbeadd; border-radius: 14px; background: #f1faf4; }
 .checkout-assurance > span { width: 28px; height: 28px; flex: 0 0 28px; display: grid; place-items: center; border-radius: 50%; background: #dff4e6; color: #18794e; }
 .checkout-assurance p { margin: 0; display: grid; gap: 3px; color: #63806c; font-size: 10px; }
@@ -683,6 +747,11 @@ td select { border: 1px solid #cbd8e3; border-radius: 7px; padding: 7px; backgro
 .management-brand-mark i { flex: 1; border-radius: 2px; background: #2e83ff; }
 .manager-portal .management-brand-mark i,
 .portal-login.manager .management-brand-mark i { background: #55c08a; }
+.management-brand .skyway-logo-mark,
+.portal-login-brand .skyway-logo-mark { width: 44px; height: 30px; color: #2e83ff; }
+.manager-portal .skyway-logo-mark,
+.portal-login.manager .skyway-logo-mark { color: #55c08a; }
+.management-sidebar .skyway-logo-mark { color: var(--portal-accent); }
 .portal-role { margin: 0 8px 34px; padding: 6px 9px; width: max-content; display: block; border: 1px solid rgba(255,255,255,.1); border-radius: 12px; color: rgba(255,255,255,.6); font-size: 9px; }
 .management-sidebar nav { gap: 6px; }
 .management-sidebar nav a { padding: 11px 12px; border-radius: 9px; color: #b8c7d4; font-size: 12px; font-weight: 600; }
@@ -783,6 +852,13 @@ td select { border: 1px solid #cbd8e3; border-radius: 7px; padding: 7px; backgro
 .portal-login-route span { font-size: 18px; font-weight: 700; }
 .portal-login-route i { border-top: 2px dotted rgba(255,255,255,.35); }
 .portal-login-route b { width: 34px; height: 34px; display: grid; place-items: center; border-radius: 50%; background: #fff; color: var(--portal-accent); position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); }
+.portal-login-network { margin-top: auto; display: grid; gap: 13px; text-align: center; }
+.portal-login-network > span { font-size: 11px; font-weight: 800; letter-spacing: 1.8px; text-transform: uppercase; }
+.portal-login-network > small { color: rgba(255,255,255,.62); font-size: 10px; letter-spacing: .7px; }
+.portal-login-network > div { height: 36px; display: grid; grid-template-columns: repeat(5, 1fr); align-items: center; position: relative; }
+.portal-login-network > div::before { content: ''; height: 2px; position: absolute; left: 5%; right: 5%; background: rgba(255,255,255,.3); }
+.portal-login-network > div > i { width: 7px; height: 7px; justify-self: center; z-index: 1; border-radius: 50%; background: rgba(255,255,255,.8); box-shadow: 0 0 0 4px var(--portal-deep); }
+.portal-login-network > div > b { width: 36px; height: 36px; display: grid; place-items: center; position: absolute; left: 50%; z-index: 2; transform: translateX(-50%); border-radius: 50%; background: #fff; color: var(--portal-accent); box-shadow: 0 0 0 5px var(--portal-deep); }
 .portal-login-shell > form { width: min(100% - 72px, 390px); margin: auto; padding: 30px 0; display: grid; gap: 17px; }
 .portal-login-shell form .eyebrow { margin: 0; color: var(--portal-accent); font-size: 10px; letter-spacing: 1.6px; }
 .portal-login-shell form h2 { margin: -4px 0 0; color: #1d252c; font: 700 32px/1.15 Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; letter-spacing: -1px; }
@@ -828,7 +904,7 @@ td select { border: 1px solid #cbd8e3; border-radius: 7px; padding: 7px; backgro
   .portal-login-copy > p { margin-top: 48px; }
   .portal-login-copy h1 { font-size: 38px; }
   .portal-login-description { display: none; }
-  .portal-login-route { margin-top: 36px; }
+  .portal-login-route, .portal-login-network { margin-top: 36px; }
 }
 
 @media (max-width: 760px) {
@@ -933,6 +1009,14 @@ td select { border: 1px solid #cbd8e3; border-radius: 7px; padding: 7px; backgro
 .sidebar-route span { font-size: 10px; font-weight: 700; letter-spacing: .7px; }
 .sidebar-route i { border-top: 2px dotted rgba(255,255,255,.2); }
 .sidebar-route b { width: 26px; height: 26px; display: grid; place-items: center; border-radius: 50%; background: var(--portal-accent); color: #fff; font-size: 11px; position: absolute; left: 50%; transform: translateX(-50%); box-shadow: 0 0 0 4px var(--portal-deep); }
+.sidebar-network { margin: 4px 8px 28px; display: grid; gap: 9px; color: rgba(255,255,255,.72); text-align: center; }
+.sidebar-network > span { font-size: 9px; font-weight: 800; letter-spacing: 1.4px; text-transform: uppercase; }
+.sidebar-network > small { color: rgba(255,255,255,.46); font-size: 8px; letter-spacing: .45px; }
+.sidebar-network > div { height: 28px; display: grid; grid-template-columns: repeat(5, 1fr); align-items: center; position: relative; }
+.sidebar-network > div::before { content: ''; height: 2px; position: absolute; left: 10%; right: 10%; background: linear-gradient(90deg, transparent, rgba(255,255,255,.22) 12%, rgba(255,255,255,.22) 88%, transparent); }
+.sidebar-network > div > i { width: 5px; height: 5px; justify-self: center; z-index: 1; border-radius: 50%; background: rgba(255,255,255,.44); box-shadow: 0 0 0 3px var(--portal-deep); }
+.sidebar-network > div > b { width: 28px; height: 28px; display: grid; place-items: center; position: absolute; left: 50%; z-index: 2; transform: translateX(-50%); border-radius: 50%; background: var(--portal-accent); color: #fff; box-shadow: 0 0 0 4px var(--portal-deep); }
+.sidebar-network .airplane-icon { width: 15px; height: 15px; }
 .sidebar-caption { margin: 0 12px 9px; color: rgba(255,255,255,.34); font-size: 8px; font-weight: 700; letter-spacing: 1.4px; text-transform: uppercase; }
 .management-page .management-sidebar nav { display: grid; gap: 5px; }
 .management-page .management-sidebar nav a { min-height: 42px; padding: 0 12px; display: flex; align-items: center; gap: 11px; border-radius: 10px; color: rgba(226,236,244,.67); font-size: 11px; font-weight: 600; transition: background .18s, color .18s; }
@@ -972,6 +1056,28 @@ td select { border: 1px solid #cbd8e3; border-radius: 7px; padding: 7px; backgro
 .management-page .metric-grid article strong { color: #1d2730; font: 700 26px/1.2 Inter, sans-serif; letter-spacing: -.7px; }
 .management-page .metric-grid article em { color: #9aa1a7; font-size: 8px; font-style: normal; white-space: nowrap; }
 .management-page .metric-grid .revenue-metric strong { font-size: clamp(18px, 1.7vw, 23px); white-space: nowrap; }
+.analytics-grid { margin-bottom: 22px; display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(300px, .55fr); gap: 14px; }
+.analytics-card { min-height: 280px; padding: 22px 24px; border: 1px solid #e2e6e9; border-radius: 16px; background: #fff; }
+.analytics-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+.analytics-heading span { color: var(--portal-accent); font-size: 8px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; }
+.analytics-heading h2 { margin: 4px 0 0; color: #26313a; font-size: 15px; }
+.analytics-heading > small { padding: 5px 8px; border-radius: 12px; background: var(--portal-soft); color: var(--portal-accent); font-size: 8px; }
+.metric-bars { height: 190px; padding-top: 25px; display: grid; gap: 15px; }
+.metric-bars > div { display: grid; grid-template-columns: 90px 1fr 34px; align-items: center; gap: 12px; }
+.metric-bars span, .metric-bars strong { color: #68737c; font-size: 9px; }
+.metric-bars strong { color: #26313a; text-align: right; }
+.metric-bars i { height: 10px; overflow: hidden; border-radius: 5px; background: #f0f2f4; }
+.metric-bars b { height: 100%; min-width: 3px; display: block; border-radius: inherit; transition: width .5s ease; }
+.donut-wrap { height: 205px; display: flex; align-items: center; justify-content: center; gap: 26px; }
+.donut { width: 132px; height: 132px; padding: 18px; display: grid; place-items: center; border-radius: 50%; }
+.donut > span { width: 96px; height: 96px; display: grid; place-content: center; gap: 2px; border-radius: 50%; background: #fff; text-align: center; }
+.donut strong { color: #26313a; font-size: 22px; }
+.donut small { color: #8a949d; font-size: 8px; }
+.donut-legend { display: grid; gap: 12px; }
+.donut-legend span { display: grid; grid-template-columns: 9px 1fr auto; align-items: center; gap: 7px; color: #6c7780; font-size: 8px; }
+.donut-legend i { width: 8px; height: 8px; border-radius: 50%; background: #e7ebef; }
+.donut-legend i.active { background: #2e83ff; }
+.donut-legend b { color: #26313a; }
 .management-page .metric-skeleton article { background: linear-gradient(90deg,#eceff1 25%,#f8f9fa 45%,#eceff1 65%); background-size: 300% 100%; animation: skyway-shimmer 1.3s infinite; }
 .management-page .metric-skeleton article::after { display: none; }
 
@@ -1001,6 +1107,7 @@ td select { border: 1px solid #cbd8e3; border-radius: 7px; padding: 7px; backgro
   .management-page { grid-template-columns: 220px minmax(0, 1fr); }
   .management-page .management-sidebar { width: 220px; }
   .management-page .metric-grid { grid-template-columns: 1fr 1fr; }
+  .analytics-grid { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 900px) {
@@ -1009,6 +1116,7 @@ td select { border: 1px solid #cbd8e3; border-radius: 7px; padding: 7px; backgro
   .management-page .management-sidebar::before,
   .management-page .portal-role,
   .management-page .sidebar-route,
+  .management-page .sidebar-network,
   .management-page .sidebar-caption,
   .management-page .sidebar-system { display: none; }
   .management-page .management-brand { min-width: 0; padding: 0; }
@@ -1029,6 +1137,26 @@ td select { border: 1px solid #cbd8e3; border-radius: 7px; padding: 7px; backgro
   .management-page .portal-user { padding-left: 0; border-left: 0; }
   .management-page .portal-user > div { display: none; }
   .management-page .metric-grid { grid-template-columns: 1fr; }
+  .analytics-grid { grid-template-columns: 1fr; }
   .management-page .metric-grid article { min-height: 112px; align-items: center; }
   .management-page .panel-title { min-height: 66px; }
 }
+.booking-detail-section {
+  background: #fff;
+  border: 1px solid var(--line, #dde4eb);
+  border-radius: 18px;
+  padding: 24px;
+}
+.booking-detail-section > header strong { display: block; font-size: 18px; }
+.booking-detail-section > header span { display: block; color: #7b8794; margin-top: 5px; font-size: 13px; }
+.contact-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 20px; }
+.contact-fields label span { display: block; font-weight: 700; font-size: 13px; margin-bottom: 8px; }
+.contact-fields input { width: 100%; min-height: 48px; border: 1px solid #d9e1e8; border-radius: 10px; padding: 0 14px; font: inherit; }
+.payment-methods { border: 0; padding: 0; margin: 20px 0 0; }
+.payment-methods legend { font-weight: 800; margin-bottom: 10px; }
+.payment-methods label { display: flex; align-items: center; gap: 10px; border: 1px solid #dce4ec; border-radius: 12px; padding: 11px 12px; margin-top: 8px; cursor: pointer; }
+.payment-methods label.selected { border-color: #176df5; background: #edf5ff; }
+.payment-methods label span { display: grid; }
+.payment-methods label small { color: #7b8794; margin-top: 2px; }
+.refund-expired { color: #87919c; font-size: 13px; max-width: 250px; text-align: right; }
+@media (max-width: 760px) { .contact-fields { grid-template-columns: 1fr; } }

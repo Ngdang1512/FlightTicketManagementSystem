@@ -73,7 +73,9 @@ export type Booking = {
   fareClass: string
   passengerCount: number
   totalAmount: number
-  passengers: { fullName: string; documentNumber?: string; seatNumber: string; checkedBaggageKg: number; baggagePrice: number }[]
+  contactEmail: string
+  contactPhone: string
+  passengers: { fullName: string; documentNumber?: string; seatNumber?: string; checkedBaggageKg: number; baggagePrice: number; passengerType: 'ADULT' | 'SENIOR' | 'CHILD' | 'INFANT'; fareAmount: number; dateOfBirth: string; gender: 'MALE' | 'FEMALE' | 'OTHER' }[]
   tickets: { id: number; passengerName: string; electronicTicketCode: string; status: string }[]
 }
 

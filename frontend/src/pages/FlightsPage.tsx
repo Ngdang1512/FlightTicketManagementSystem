@@ -1,5 +1,5 @@
 import { FormEvent, useEffect, useMemo, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import { getUpcomingDomesticFlights, searchFlights } from '../api/client'
 import type { Flight } from '../types'
 import AirplaneIcon from '../components/AirplaneIcon'
@@ -35,14 +35,17 @@ const duration = (departure: string, arrival: string) => {
 const domesticCityLabel = (code: string, fallback: string) =>
   domesticAirports.find(airport => airport.code === code)?.city ?? fallback
 
-type IconName = 'airport' | 'calendar' | 'passengers' | 'swap' | 'filter' | 'luggage' | 'cabin' | 'plane' | 'chevron'
+type IconName = 'airport' | 'calendar' | 'passengers' | 'senior' | 'child' | 'infant' | 'swap' | 'filter' | 'luggage' | 'cabin' | 'plane' | 'chevron'
 
 function UiIcon({ name }: { name: IconName }) {
   const common = { className: 'ui-icon', viewBox: '0 0 24 24', 'aria-hidden': true }
 
   if (name === 'airport') return <svg {...common}><path d="m3.5 14.5 7.2 1.6 8.8-7.4c.9-.8 1.2-2 .6-2.6-.6-.6-1.8-.3-2.6.5l-3.1 2.7-6.1-2.2-1.4 1.2 4.5 3.5-3.1 2.6-2.5-.8-2.3.9Z" /><path d="M4 20h16" /></svg>
   if (name === 'calendar') return <svg {...common}><rect x="3.5" y="5.5" width="17" height="15" rx="2.5" /><path d="M7.5 3.5v4M16.5 3.5v4M3.5 9.5h17M8 13h.01M12 13h.01M16 13h.01M8 17h.01M12 17h.01" /></svg>
-  if (name === 'passengers') return <svg {...common}><circle cx="9" cy="8" r="3" /><path d="M3.5 19v-1.3c0-2.6 2.4-4.7 5.5-4.7s5.5 2.1 5.5 4.7V19M16 11a2.5 2.5 0 1 0 0-5M16 13.5c2.6 0 4.5 1.7 4.5 3.8V19" /></svg>
+  if (name === 'passengers') return <svg {...common}><circle cx="12" cy="7" r="4" /><path d="M5.5 21v-2.2A6.5 6.5 0 0 1 12 12.3a6.5 6.5 0 0 1 6.5 6.5V21M9 6.8c1.2.9 2.1 1.2 3 1.2s1.8-.3 3-1.2M9.5 10.2h5" /></svg>
+  if (name === 'senior') return <svg {...common}><circle cx="10" cy="6" r="3" /><path d="M5.5 21v-4.5a4.5 4.5 0 0 1 9 0V21M16.5 11v10M16.5 14h2" /></svg>
+  if (name === 'child') return <svg {...common}><circle cx="10" cy="7" r="3" /><circle cx="18" cy="5" r="2.5" /><path d="M18 7.5v4l-3 2M7 21l1-6-3 2M13 21l-1-6 3 2M7.5 11.5h5L14 16M10 10v5" /></svg>
+  if (name === 'infant') return <svg {...common}><circle cx="12" cy="12" r="9" /><circle cx="9" cy="12" r="1" /><circle cx="15" cy="12" r="1" /><path d="M9.5 16c1.7 1.2 3.3 1.2 5 0M12 3c0 3 2 4 4 4" /></svg>
   if (name === 'swap') return <svg {...common}><path d="m7 7-3 3 3 3M4 10h14M17 17l3-3-3-3M20 14H6" /></svg>
   if (name === 'filter') return <svg {...common}><path d="M4 5h16l-6.3 7.1V18l-3.4 1.7v-7.6L4 5Z" /></svg>
   if (name === 'luggage') return <svg {...common}><rect x="5" y="7" width="14" height="13" rx="2" /><path d="M9 7V4.5h6V7M9 11v5M15 11v5M8 22h.01M16 22h.01" /></svg>
@@ -94,14 +97,28 @@ function AirlineMark({ code }: { code: string }) {
 }
 
 export default function FlightsPage() {
+  const [query] = useSearchParams()
+  const queryDeparture = query.get('departure')
+  const queryArrival = query.get('arrival')
+  const queryDate = query.get('date')
+  const queryPassengers = Number(query.get('passengers'))
+  const queryAdults = Number(query.get('adults'))
+  const querySeniors = Number(query.get('seniors'))
+  const queryChildren = Number(query.get('children'))
+  const queryInfants = Number(query.get('infants'))
   const [flights, setFlights] = useState<Flight[]>([])
   const [loading, setLoading] = useState(false)
   const [searched, setSearched] = useState(false)
   const [error, setError] = useState('')
-  const [passengerCount, setPassengerCount] = useState(1)
-  const [departure, setDeparture] = useState('SGN')
-  const [arrival, setArrival] = useState('HAN')
-  const [date, setDate] = useState(defaultDate)
+  const [adultCount, setAdultCount] = useState(queryAdults >= 1 ? queryAdults : (queryPassengers >= 1 ? queryPassengers : 1))
+  const [seniorCount, setSeniorCount] = useState(querySeniors >= 0 ? querySeniors : 0)
+  const [childCount, setChildCount] = useState(queryChildren >= 0 ? queryChildren : 0)
+  const [infantCount, setInfantCount] = useState(queryInfants >= 0 ? queryInfants : 0)
+  const passengerCount = Math.min(9, adultCount + seniorCount + childCount)
+  const travelerCount = passengerCount + infantCount
+  const [departure, setDeparture] = useState(queryDeparture && domesticAirports.some(item => item.code === queryDeparture) ? queryDeparture : 'SGN')
+  const [arrival, setArrival] = useState(queryArrival && domesticAirports.some(item => item.code === queryArrival) ? queryArrival : 'HAN')
+  const [date, setDate] = useState(queryDate && /^\d{4}-\d{2}-\d{2}$/.test(queryDate) ? queryDate : defaultDate)
   const [returnDate, setReturnDate] = useState(defaultReturnDate)
   const [fareClass, setFareClass] = useState('ECONOMY')
   const [minPrice, setMinPrice] = useState(500_000)
@@ -110,6 +127,7 @@ export default function FlightsPage() {
   const [sort, setSort] = useState('PRICE')
   const [stops, setStops] = useState('ALL')
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
+  const [passengerOpen, setPassengerOpen] = useState(false)
   const [collapsedFlights, setCollapsedFlights] = useState<Set<number>>(() => new Set())
 
   async function loadFlights() {
@@ -134,6 +152,13 @@ export default function FlightsPage() {
 
   useEffect(() => {
     setLoading(true)
+    if (queryDeparture && queryArrival && queryDate) {
+      const params = new URLSearchParams({ departure: queryDeparture, arrival: queryArrival, date: queryDate, passengers: String(queryPassengers >= 1 && queryPassengers <= 9 ? queryPassengers : 1) })
+      searchFlights(params).then(setFlights)
+        .catch(reason => { setFlights([]); setError(reason instanceof Error ? reason.message : 'Không thể tải chuyến bay') })
+        .finally(() => { setSearched(true); setLoading(false) })
+      return
+    }
     getUpcomingDomesticFlights(1).then(items => {
       if (items[0]) {
         const first = items[0]
@@ -150,7 +175,7 @@ export default function FlightsPage() {
       setSearched(true)
     }).catch(reason => setError(reason instanceof Error ? reason.message : 'Không thể tải chuyến bay'))
       .finally(() => setLoading(false))
-  }, [])
+  }, [queryDeparture, queryArrival, queryDate, queryPassengers])
 
   const airlines = useMemo(() => Array.from(new Set(flights.map(flight => flight.airlineName))), [flights])
   const visibleFlights = useMemo(() => flights
@@ -198,10 +223,11 @@ export default function FlightsPage() {
             <span>Ngày bay <i className="date-toggle" aria-hidden="true" /></span>
             <div className="search-field date-range-field"><UiIcon name="calendar" /><input aria-label="Ngày khởi hành" type="date" value={date} min={new Date().toISOString().slice(0, 10)} onChange={event => { const value = event.target.value; setDate(value); if (returnDate < value) setReturnDate(value) }} required /><b aria-hidden="true">–</b><input aria-label="Ngày trở về" type="date" value={returnDate} min={date} onChange={event => setReturnDate(event.target.value)} required /></div>
           </label>
-          <label className="passenger-search-control">
+          <div className={`passenger-search-control${passengerOpen ? ' open' : ''}`}>
             <span>Hành khách</span>
-            <div className="passenger-stepper"><UiIcon name="passengers" /><button type="button" onClick={() => setPassengerCount(Math.max(1, passengerCount - 1))}>−</button><strong>{passengerCount}</strong><button type="button" onClick={() => setPassengerCount(Math.min(9, passengerCount + 1))}>+</button></div>
-          </label>
+            <button className="passenger-selector-trigger" type="button" onClick={() => setPassengerOpen(open => !open)} aria-expanded={passengerOpen}><UiIcon name="passengers" /><strong>{travelerCount} người</strong><i>⌄</i></button>
+            {passengerOpen && <div className="passenger-popover"><div className="passenger-types"><label><UiIcon name="passengers" /><span><b>Người lớn</b><small>Từ 12 – 59 tuổi</small></span><button type="button" onClick={() => { const next = Math.max(1, adultCount - 1); setAdultCount(next); setInfantCount(Math.min(infantCount, next + seniorCount)) }}>−</button><strong>{adultCount}</strong><button type="button" disabled={passengerCount >= 9} onClick={() => setAdultCount(adultCount + 1)}>+</button></label><label><UiIcon name="senior" /><span><b>Người cao tuổi</b><small>Từ 60 tuổi</small></span><button type="button" onClick={() => { const next = Math.max(0, seniorCount - 1); setSeniorCount(next); setInfantCount(Math.min(infantCount, adultCount + next)) }}>−</button><strong>{seniorCount}</strong><button type="button" disabled={passengerCount >= 9} onClick={() => setSeniorCount(seniorCount + 1)}>+</button></label><label><UiIcon name="child" /><span><b>Trẻ em</b><small>Từ 2 – 11 tuổi</small></span><button type="button" onClick={() => setChildCount(Math.max(0, childCount - 1))}>−</button><strong>{childCount}</strong><button type="button" disabled={passengerCount >= 9} onClick={() => setChildCount(childCount + 1)}>+</button></label><label><UiIcon name="infant" /><span><b>Em bé</b><small>Dưới 2 tuổi · Không ghế</small></span><button type="button" onClick={() => setInfantCount(Math.max(0, infantCount - 1))}>−</button><strong>{infantCount}</strong><button type="button" disabled={infantCount >= adultCount + seniorCount || travelerCount >= 9} onClick={() => setInfantCount(infantCount + 1)}>+</button></label></div><button className="passenger-done" type="button" onClick={() => setPassengerOpen(false)}>Xong</button></div>}
+          </div>
           <button className="button primary search-ticket" disabled={loading}>{loading ? 'Đang tìm…' : 'Tìm chuyến bay'}</button>
         </form>
       </div>
@@ -234,7 +260,7 @@ export default function FlightsPage() {
               <div className="route-track"><i /><span><AirplaneIcon /></span><small>Thời gian bay: {duration(flight.departureTime, flight.arrivalTime)}</small></div>
               <div className="route-endpoint route-arrival"><small>{formatDate(flight.arrivalTime)}</small><strong>{formatTime(flight.arrivalTime)}</strong><span><UiIcon name="airport" />{domesticCityLabel(flight.arrivalAirport.iataCode, flight.arrivalAirport.city)} ({flight.arrivalAirport.iataCode})</span></div>
             </div>
-            <footer className="flight-card-footer"><div className="domestic-fare"><div><small>VND</small><strong>{formatMoney(fare.price).replace('₫', '').trim()}</strong><small>/ hành khách</small></div><Link className="button primary" to={`/bookings/new?flightId=${flight.id}&fareId=${fare.id}&passengers=${passengerCount}`}>Chọn chuyến bay</Link></div></footer>
+            <footer className="flight-card-footer"><div className="domestic-fare"><div><small>VND</small><strong>{formatMoney(fare.price).replace('₫', '').trim()}</strong><small>/ giá người lớn</small></div><Link className="button primary" to={`/bookings/new?flightId=${flight.id}&fareId=${fare.id}&adults=${adultCount}&seniors=${seniorCount}&children=${childCount}&infants=${infantCount}`}>Chọn chuyến bay</Link></div></footer>
           </article>})}
           {searched && !loading && !error && flightOptions.length === 0 && <div className="empty-flights"><AirplaneIcon /><strong>Chưa có chuyến bay phù hợp</strong><p>Hãy thử đổi ngày bay, hành trình hoặc bộ lọc.</p></div>}
         </div>

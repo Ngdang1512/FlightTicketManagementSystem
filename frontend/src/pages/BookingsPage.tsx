@@ -83,7 +83,7 @@ export default function BookingsPage() {
       <div><span>Đã xuất vé</span><strong>{summary.completed}</strong></div>
     </div>}
 
-    {location.state?.created && <div className="notice success">Đã giữ chỗ thành công · Mã đặt chỗ <strong>{location.state.created}</strong></div>}
+    {location.state?.created && <div className="notice success">{location.state.paid ? 'Đặt vé và thanh toán thành công' : 'Đã giữ chỗ thành công'} · Mã đặt chỗ <strong>{location.state.created}</strong></div>}
     {error && <div className="notice error">{error}</div>}
     {loading && <div className="booking-loading" aria-label="Đang tải đơn đặt vé"><i /><i /><i /></div>}
 
@@ -102,12 +102,13 @@ export default function BookingsPage() {
         <span><small>Hành khách</small><strong>{item.passengerCount} người</strong></span>
         <span><small>Ngày đặt</small><strong>{date(item.bookedAt)}</strong></span>
         <span><small>Hành lý ký gửi</small><strong>{item.passengers.reduce((sum, passenger) => sum + passenger.checkedBaggageKg, 0)} kg</strong></span>
+        <span><small>Liên hệ</small><strong>{item.contactEmail}</strong></span>
       </div>
       {item.tickets.length > 0 && <div className="tickets"><strong>Vé điện tử</strong><div>{item.tickets.map(ticket => <span key={ticket.id}><b>{ticket.electronicTicketCode}</b><small>{ticket.passengerName}</small></span>)}</div></div>}
       <footer className="booking-card-foot">
         <div><small>Tổng thanh toán</small><strong>{money(item.totalAmount)}</strong></div>
         {item.status === 'PENDING' && <div className="booking-actions"><button className="button secondary" disabled={busy === item.id} onClick={() => cancel(item.id)}>Hủy đặt chỗ</button><button className="button primary" disabled={busy === item.id} onClick={() => pay(item.id)}>{busy === item.id ? 'Đang xử lý…' : 'Thanh toán thẻ'}</button></div>}
-        {item.status === 'PAID' && <div className="booking-actions"><button className="button secondary" disabled={busy === item.id} onClick={() => requestRefund(item.id)}>{busy === item.id ? 'Đang gửi…' : 'Yêu cầu hoàn vé'}</button></div>}
+        {item.status === 'PAID' && <div className="booking-actions">{new Date(item.departureTime).getTime() - Date.now() >= 86_400_000 ? <button className="button secondary" disabled={busy === item.id} onClick={() => requestRefund(item.id)}>{busy === item.id ? 'Đang gửi…' : 'Yêu cầu hoàn vé'}</button> : <span className="refund-expired">Đã hết thời hạn hoàn vé (trước giờ bay 24 giờ)</span>}</div>}
       </footer>
     </article>)}</div>}
 

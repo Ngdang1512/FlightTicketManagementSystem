@@ -4,6 +4,7 @@ import { ApiRequestError, cancelManagedBooking, clearSession, createAdminStaff, 
 import type { AdminBooking, AdminCatalog, AdminCustomer, AdminDashboard, AuthUser, Flight, StaffAccount } from '../types'
 import AirplaneIcon from '../components/AirplaneIcon'
 import AdminCatalogManager from '../components/AdminCatalogManager'
+import SkyWayLogo from '../components/SkyWayLogo'
 
 const money = (value: number) => new Intl.NumberFormat('vi-VN').format(value) + ' ₫'
 const statuses = ['SCHEDULED', 'DELAYED', 'BOARDING', 'DEPARTED', 'ARRIVED', 'CANCELLED']
@@ -152,9 +153,13 @@ export default function ManagementPage({ mode }: { mode: 'ADMIN' | 'STAFF' }) {
 
   return <section className={`management-page ${portal}-portal`}>
     <aside className="management-sidebar">
-      <div className="management-brand"><span className="management-brand-mark" aria-hidden="true"><i /><i /><i /></span><span>{mode === 'ADMIN' ? 'SkyWay Admin' : 'SkyWay Manager'}</span></div>
+      <div className="management-brand"><SkyWayLogo /><span>{mode === 'ADMIN' ? 'SkyWay Admin' : 'SkyWay Manager'}</span></div>
       <span className="portal-role">{mode === 'ADMIN' ? 'Quản trị hệ thống' : 'Điều hành chuyến bay'}</span>
-      <div className="sidebar-route" aria-hidden="true"><span>SGN</span><i /><b><AirplaneIcon /></b><span>HAN</span></div>
+      <div className="sidebar-network" aria-hidden="true">
+        <span>Mạng bay nội địa</span>
+        <div><i /><i /><i /><i /><i /><b><AirplaneIcon /></b></div>
+        <small>Đa điểm đến · Toàn quốc</small>
+      </div>
       <p className="sidebar-caption">Không gian làm việc</p>
       <nav aria-label="Điều hướng quản trị">
         <a className="active" href="#dashboard"><PortalIcon name="overview" />Tổng quan</a>
@@ -183,6 +188,20 @@ export default function ManagementPage({ mode }: { mode: 'ADMIN' | 'STAFF' }) {
         <article><span className="metric-icon"><PortalIcon name={mode === 'ADMIN' ? 'customer' : 'payment'} /></span><div><small>{mode === 'ADMIN' ? 'Khách hàng' : 'Thanh toán'}</small><strong>{mode === 'ADMIN' ? dashboard.customers : dashboard.successfulPayments}</strong><em>{mode === 'ADMIN' ? 'Tài khoản hành khách' : 'Giao dịch thành công'}</em></div></article>
         <article className="revenue-metric"><span className="metric-icon"><PortalIcon name="revenue" /></span><div><small>Doanh thu</small><strong>{money(dashboard.revenue)}</strong><em>Tổng giá trị thanh toán</em></div></article>
       </div>}
+
+      {mode === 'ADMIN' && dashboard && <section className="analytics-grid" aria-label="Biểu đồ thống kê hệ thống">
+        <article className="analytics-card">
+          <div className="analytics-heading"><div><span>System overview</span><h2>Quy mô vận hành</h2></div><small>Dữ liệu hiện tại</small></div>
+          <div className="metric-bars">{[
+            ['Chuyến bay', dashboard.flights, '#2e83ff'], ['Đơn đặt vé', dashboard.bookings, '#6a5ce7'],
+            ['Khách hàng', dashboard.customers, '#28a66f'], ['Thanh toán', dashboard.successfulPayments, '#f3a72f'],
+          ].map(([label, value, color]) => { const max = Math.max(dashboard.flights, dashboard.bookings, dashboard.customers, dashboard.successfulPayments, 1); return <div key={String(label)}><span>{label}</span><i><b style={{ width: `${Number(value) / max * 100}%`, background: String(color) }} /></i><strong>{value}</strong></div> })}</div>
+        </article>
+        <article className="analytics-card customer-chart">
+          <div className="analytics-heading"><div><span>Customer status</span><h2>Tình trạng tài khoản</h2></div><small>{customers.length} tài khoản</small></div>
+          {(() => { const active = customers.filter(item => item.status === 'ACTIVE').length; const locked = customers.length - active; const angle = customers.length ? active / customers.length * 360 : 0; return <div className="donut-wrap"><div className="donut" style={{ background: `conic-gradient(#2e83ff 0deg ${angle}deg, #e7ebef ${angle}deg 360deg)` }}><span><strong>{customers.length ? Math.round(active / customers.length * 100) : 0}%</strong><small>hoạt động</small></span></div><div className="donut-legend"><span><i className="active" />Đang hoạt động <b>{active}</b></span><span><i />Đã khóa <b>{locked}</b></span></div></div> })()}
+        </article>
+      </section>}
 
       {mode === 'STAFF' && <section className="admin-panel" id="flights">
         <div className="panel-title"><div><span>Flight operations</span><h2>Điều hành chuyến bay</h2></div><b>{flights.length} chuyến</b></div>
